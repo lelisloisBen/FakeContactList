@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const NewContact = () => {
+    let history = useHistory();
 
     const [fullname, setFullname] = useState();
     const [email, setEmail] = useState();
@@ -31,7 +32,8 @@ useEffect(() => {
             }).then(res => res.json())
             .then(response => {
                 alert('Success:', JSON.stringify(response));
-                window.location='/';
+                // window.location='/';
+                history.push('/');
             })
             .catch(error => alert('Error:', error));
     }

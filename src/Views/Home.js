@@ -42,7 +42,7 @@ const Home = () => {
 
 
             <ul className="list-group mt-5" >
-                {!data ? ('Loading...') : data.map((item, index) => {
+                {!data ? ('Loading...') : data.reverse().map((item, index) => {
                     return (
                         <li key={index} className="list-group-item" >
                             <div className="row">
