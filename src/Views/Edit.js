@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { UserContext } from '../UserContext';
 
 const Edit = (props) => {
+    let history = useHistory();
 
     const {data} = useContext(UserContext);
 
@@ -14,23 +15,20 @@ const Edit = (props) => {
 
     const [editedData, setEditedData] = useState();
 
-    console.log(data);
-
 
 useEffect(() => {
     setEditedData(JSON.stringify({
-        agenda_slug: data[props.match.params.id].agenda_slug,   
-        full_name: fullname,
-        email: email,
-        phone: phone,
-        address: address
+        "full_name": fullname,
+        "email": email,
+        "agenda_slug": data[props.match.params.id].agenda_slug,
+        "address":address,
+        "phone":phone
     }) );
 },[data, props.match.params.id,fullname, email, phone, address])
 
-const formEditHandler = () => {
-    (data.full_name === "") ? alert("cannot be empty") : 
+const formEditHandler = (id) => {
 
-    fetch('https://assets.breatheco.de/apis/fake/contact/'+data[props.match.params.id].id, {
+    fetch('https://assets.breatheco.de/apis/fake/contact/'+id, {
         method: 'PUT',
         body: editedData,
         headers:{
@@ -38,8 +36,8 @@ const formEditHandler = () => {
         }
         }).then(res => res.json())
         .then(response => {
-            alert('Success:', JSON.stringify(response));
-            window.location='/';
+            alert('Edit Successful');
+            history.push('/');
         })
         .catch(error => alert('Error:', error));
 }
@@ -101,7 +99,7 @@ const formEditHandler = () => {
                         </div>
                         <div className="col">
                             <div className="d-flex justify-content-end">
-                                <input className="btn btn-success" type="button" value="Edit my contact" onClick={formEditHandler} />
+                                <input className="btn btn-success" type="button" value="Edit my contact" onClick={() => formEditHandler(data[props.match.params.id].id)} />
                             </div>
                         </div>
                     </div>
